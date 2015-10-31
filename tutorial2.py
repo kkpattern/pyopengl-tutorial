@@ -1,4 +1,5 @@
 from array import array
+import numpy
 
 import OpenGL.GL as gl
 from PyQt4 import QtOpenGL
@@ -22,12 +23,13 @@ class Canvas(QtOpenGL.QGLWidget):
         gl.glClearColor (0.0, 0.5, 0.5, 1.0)
         gl.glEnableClientState (gl.GL_VERTEX_ARRAY)
 
-        vertices = [ 0.0, 1.0, 0.0,  0.0, 0.0, 0.0,  1.0, 1.0, 0.0 ]
+        vertices = numpy.array(
+            [[ 0.0, 1.0, 0.0],  [0.0, 0.0, 0.0],  [1.0, 1.0, 0.0]], "f")
         self._vbo = gl.glGenBuffers (1)
-        ar = array("f", vertices)
+        # ar = array("f", vertices)
         gl.glBindBuffer (gl.GL_ARRAY_BUFFER, self._vbo)
-        gl.glBufferData (gl.GL_ARRAY_BUFFER, len(vertices)*4,
-                      ar.tostring(), gl.GL_STATIC_DRAW)
+        gl.glBufferData (gl.GL_ARRAY_BUFFER, vertices.size*4,
+                        vertices, gl.GL_STATIC_DRAW)
         self._shader_program = shader.LoadShaders("simple_es_shader.vs",
                                                   "simple_es_shader.ps")
 
