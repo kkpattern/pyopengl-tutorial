@@ -4,10 +4,12 @@ import sys
 from PyQt4 import QtGui
 
 import tutorial2
+import tutorial3
 
 
 TUTORIAL_CANVAS = {
     "tutorial2": tutorial2.Canvas,
+    "tutorial3": tutorial3.Canvas,
 }
 
 
