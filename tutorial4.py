@@ -108,13 +108,8 @@ class Canvas(QtOpenGL.QGLWidget):
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self._color_buffer)
         gl.glBufferData(gl.GL_ARRAY_BUFFER, self._color_buffer_data.size*4,
                         self._color_buffer_data, gl.GL_STATIC_DRAW)
-<<<<<<< HEAD
         self._shader_program = shader.LoadShaders("simple_shader.vs",
                                                   "simple_shader.ps")
-=======
-        self._shader_program = shader.LoadShaders("simple_es_shader.vs",
-                                                  "simple_es_shader.ps")
->>>>>>> 5bbe7e7a682b1a6cd9fd72700a661088f99a14e5
         gl.glEnable(gl.GL_DEPTH_TEST)
         gl.glDepthFunc(gl.GL_LESS)
 
