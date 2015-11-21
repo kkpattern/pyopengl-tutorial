@@ -1,0 +1,9 @@
+#version 130
+
+in vec2 uv;
+
+uniform sampler2D textureSampler;
+
+void main(){
+	gl_FragColor = vec4(texture(textureSampler, uv).rgb, 1.0);
+}

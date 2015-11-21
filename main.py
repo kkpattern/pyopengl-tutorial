@@ -6,12 +6,14 @@ from PyQt4 import QtGui
 import tutorial2
 import tutorial3
 import tutorial4
+import tutorial5
 
 
 TUTORIAL_CANVAS = {
     "tutorial2": tutorial2.Canvas,
     "tutorial3": tutorial3.Canvas,
     "tutorial4": tutorial4.Canvas,
+    "tutorial5": tutorial5.Canvas,
 }
 
 
