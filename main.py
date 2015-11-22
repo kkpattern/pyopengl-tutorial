@@ -7,6 +7,7 @@ import tutorial2
 import tutorial3
 import tutorial4
 import tutorial5
+import tutorial7
 
 
 TUTORIAL_CANVAS = {
@@ -14,6 +15,7 @@ TUTORIAL_CANVAS = {
     "tutorial3": tutorial3.Canvas,
     "tutorial4": tutorial4.Canvas,
     "tutorial5": tutorial5.Canvas,
+    "tutorial7": tutorial7.Canvas,
 }
 
 
