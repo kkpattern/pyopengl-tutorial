@@ -44,23 +44,16 @@ class Canvas(QtOpenGL.QGLWidget):
     def paintGL(self):
         gl.glClear (gl.GL_COLOR_BUFFER_BIT|gl.GL_DEPTH_BUFFER_BIT)
 
-        gl.glMatrixMode(gl.GL_PROJECTION)
-        gl.glLoadIdentity()
-        glu.gluPerspective(45.0, 4.0/3.0, 0.1, 100.0)
-
-        gl.glMatrixMode(gl.GL_MODELVIEW)
-        gl.glLoadIdentity()
-        glu.gluLookAt(4, 3, 10, 0, 0, 0, 0, 1, 0)
+        gl.glLinkProgram(self._shader_program)
+        gl.glUseProgram(self._shader_program)
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self._vbo)
         gl.glVertexPointer(3, gl.GL_FLOAT, 0, None)
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self._normal_vbo)
-        gl.glVertexAttribPointer(1, 3, gl.GL_FLOAT, gl.GL_FALSE, 0, None)
-        gl.glBindAttribLocation(self._shader_program, 0, "normal")
-
-        gl.glLinkProgram(self._shader_program)
-        gl.glUseProgram(self._shader_program)
+        index = gl.glGetAttribLocation(self._shader_program, "normal")
+        gl.glEnableVertexAttribArray(index)
+        gl.glVertexAttribPointer(index, 3, gl.GL_FLOAT, gl.GL_FALSE, 0, None)
 
         model = math3d.Matrix44.translate(0, 0, 0)
 
