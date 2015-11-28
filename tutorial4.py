@@ -127,6 +127,9 @@ class Canvas(QtOpenGL.QGLWidget):
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self._vbo)
         gl.glVertexPointer(3, gl.GL_FLOAT, 0, None)
         gl.glEnableVertexAttribArray(1)
+		# TODO: bind uv buffer.
+        # gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self._uv_buffer)
+        # gl.glVertexAttribPointer(1, 2, gl.GL_FLOAT, gl.GL_FALSE, 0, None)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self._color_buffer)
         gl.glVertexAttribPointer(1, 3, gl.GL_FLOAT, gl.GL_FALSE, 0, None)
         gl.glBindAttribLocation(self._shader_program, 1, "InColor")

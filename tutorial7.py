@@ -1,4 +1,4 @@
-import numpy
+import math
 
 import OpenGL.GL as gl
 import OpenGL.GLU as glu
@@ -6,6 +6,7 @@ from PyQt4 import QtOpenGL
 
 import shader
 import util
+import math3d
 
 
 class Canvas(QtOpenGL.QGLWidget):
@@ -45,12 +46,27 @@ class Canvas(QtOpenGL.QGLWidget):
 
         gl.glMatrixMode(gl.GL_MODELVIEW)
         gl.glLoadIdentity()
-        glu.gluLookAt(4, 3, 3, 0, 0, 0, 0, 1, 0)
-
+        glu.gluLookAt(4, 3, 10, 0, 0, 0, 0, 1, 0)
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self._vbo)
         gl.glVertexPointer(3, gl.GL_FLOAT, 0, None)
 
         gl.glLinkProgram(self._shader_program)
         gl.glUseProgram(self._shader_program)
+
+        model = math3d.Matrix44.translate(0, 0, 0)
+
+        view = math3d.Matrix44.look_at_right_hand(
+            math3d.Vector(4, 3, 10),
+            math3d.Vector(0, 0, 0),
+            math3d.Vector(0, 1, 0))
+
+        projection = math3d.Matrix44.projection_right_hand(
+            math.radians(45), 4.0/3.0, 0.1, 100.0)
+
+        mvp = model*view*projection
+
+        mvp_id = gl.glGetUniformLocation(self._shader_program, "mvp")
+        gl.glUniformMatrix4fv(mvp_id, 1, gl.GL_FALSE, mvp.raw_data())
+
         gl.glDrawArrays(gl.GL_TRIANGLES, 0, self._vertices.size)
