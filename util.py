@@ -59,8 +59,50 @@ def load_obj(obj_path):
     return numpy.array(flat_vertex, "f"), numpy.array(flat_normal, "f")
 
 
+def load_obj_with_index(obj_path):
+    temp_vertex = []
+    # temp_uv = []
+    temp_normal = []
+    # temp_uv_indices = []
+    vertex_map = {}
+    next_index = 0
+    vertex_buffer = []
+    normal_buffer = []
+    index_buffer = []
+    with open(obj_path, "r") as f:
+        for line in f:
+            header, data = line.split(" ", 1)
+            if header == "v":
+                temp_vertex.append(tuple(float(i) for i in data.split()))
+            # elif header == "vt":
+            #     temp_uv.append([float(i) for i in data.split()])
+            elif header == "vn":
+                temp_normal.append(tuple(float(i) for i in data.split()))
+            elif header == "f":
+                for vertex in data.split():
+                    indices = [int(i) if i else -1 for i in vertex.split("/")]
+                    position = temp_vertex[indices[0]-1]
+                    normal = temp_normal[indices[2]-1]
+                    try:
+                        index = vertex_map[(position, normal)]
+                    except KeyError:
+                        index = next_index
+                        vertex_map[(position, normal)] = index
+                        next_index += 1
+                    index_buffer.append(index)
+                    # temp_uv_indices.append(indices[1])
+        for position, normal in sorted(vertex_map, key=lambda k: vertex_map[k]):
+            vertex_buffer.append(position)
+            normal_buffer.append(normal)
+    return (
+        numpy.array(vertex_buffer, "f"),
+        numpy.array(normal_buffer, "f"),
+        index_buffer)
+
+
 def main():
-    print load_obj("monkey.obj")
+    vertex, normal, index = load_obj_with_index("monkey.obj")
+    print index.size
 
 
 if __name__ == "__main__":
